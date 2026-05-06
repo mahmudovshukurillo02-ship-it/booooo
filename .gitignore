@@ -1,7 +1,9 @@
-.env
+﻿.env
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
 .Python
 bot_test.py
+*.bak*
+bot.py.bak_*
