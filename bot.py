@@ -825,7 +825,7 @@ def run():
         raise RuntimeError("BOT_TOKEN topilmadi. .env faylga BOT_TOKEN=... qilib yozing!")
 
     webhook_url = os.getenv("WEBHOOK_URL", "").strip()
-    port = int(os.getenv("PORT", "8443"))
+    port = int(os.getenv("PORT", "10000"))
 
     socket.setdefaulttimeout(30)
 
@@ -852,7 +852,27 @@ def run():
             drop_pending_updates=True,
         )
     else:
-        # ====== POLLING REJIMI (local test uchun) ======
+        # ====== POLLING REJIMI + DUMMY HTTP SERVER (Render bepul Web Service uchun) ======
+        import threading
+        from http.server import BaseHTTPRequestHandler, HTTPServer
+
+        class HealthCheckHandler(BaseHTTPRequestHandler):
+            def do_GET(self):
+                self.send_response(200)
+                self.send_header("Content-type", "text/plain")
+                self.end_headers()
+                self.wfile.write(b"Bot ishlayapti OK!")
+            def log_message(self, format, *args):
+                pass  # loglarni tozalash uchun
+
+        def run_dummy_server():
+            server = HTTPServer(("0.0.0.0", port), HealthCheckHandler)
+            logger.info("Dummy HTTP server %d portda ishga tushdi (Render uchun)", port)
+            server.serve_forever()
+
+        t = threading.Thread(target=run_dummy_server, daemon=True)
+        t.start()
+
         logger.info("Polling rejimida ishga tushdi ✅")
         app.run_polling(drop_pending_updates=True)
 
