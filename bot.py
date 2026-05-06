@@ -627,8 +627,8 @@ def kb_rows_from_texts(texts: list[str], per_row: int = 2) -> list[list[Keyboard
 def main_menu_kb() -> ReplyKeyboardMarkup:
     rows = [
         [KeyboardButton("📨 Murojaat qilish")],
-        [KeyboardButton("🏢 Tuman tashkilotlari"), KeyboardButton("🏛 Tuman hokimligi")],
         [KeyboardButton("❓ Ko'p beriladigan savollar")],
+        [KeyboardButton("🏢 Tuman tashkilotlari"), KeyboardButton("🏛 Tuman hokimligi")],
         [KeyboardButton("🎓 Maktab"), KeyboardButton("🏫 Bog'cha")],
         [KeyboardButton("🏘 MFYlar")],
         [KeyboardButton("ℹ️ Yo'riqnoma")],
